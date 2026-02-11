@@ -1,26 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Autoblocker allowList (whitelist) — test</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.25rem; }
+    .placeholder { background: #f0f0f0; padding: 0.5rem; margin: 0.5rem 0; font-size: 0.9rem; }
+    .status { margin: 1rem 0; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; }
+    .status.ok { background: #e8f5e9; border-color: #4caf50; }
+    .status.blocked { background: #ffebee; border-color: #f44336; }
+    code { background: #eee; padding: 0.1em 0.3em; border-radius: 3px; }
+  </style>
 
-  <!-- This is the head of the HTML page -->
-  
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width" , initial-scale="1.0">
-     <title> UC CMP V2 implementing GDPR (General Data Protection Regulation) - Manual implementation</title> 
+    
+    <script id="usercentrics-cmp" src="https://web.cmp.usercentrics.eu/ui/loader.js" data-settings-id="HTrWecvQcUoC94" async></script>
 
-     <!-- This is the UC live script for GDPR (Name = Product Challenge)-->
-    
-   
-    
-  <script id="Cookiebot" src="https://dev-consent-cookiebot-com.cookiebot.dev/uc.js" data-cbid="5d0450b1-716d-4cf5-b0b1-d11523ff6b37"  type="text/javascript"></script>
-  
-  </head>
+  <!-- ========== 2. Paste your Autoblocker script here (if loaded separately) ========== -->
+  <!-- Or it may be loaded by the CMP — then this block is not needed. -->
+</head>
+<body>
+  <h1>Autoblocker allowList (whitelist) test</h1>
+  <p>The script below should be blocked without consent. If its URL is added to <code>allowListAutoblockerURLs</code> in C&amp;D, it should run even when the user clicks “Deny all”.</p>
 
-  <!-- This is the body of the HTML page -->
+  <div class="status" id="whitelist-test-status">Waiting for script to load…</div>
 
-  <body>
-    
-    <h1> Usercentrics CMP V2 Test Page Implemented manually (JS) for GDPR - Product Challenge</h1>
-    
-  </body>
+  <!-- Test script: when this URL is in allowListAutoblockerURLs it is not blocked on Deny all -->
+  <script src="https://unpkg.com/preact@10.19.2/dist/preact.min.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('whitelist-test-status');
+      if (typeof preact !== 'undefined') {
+        el.textContent = 'Preact loaded — script ran (consent given or URL in allow list).';
+        el.className = 'status ok';
+      } else {
+        el.textContent = 'Preact not loaded — script blocked by autoblocker.';
+        el.className = 'status blocked';
+      }
+    })();
+  </script>
+
+  <p class="placeholder">
+    <strong>How to test:</strong><br>
+    1) Ensure the autoblocker config for this domain has a node for this script (e.g. <code>src: "unpkg.com/preact"</code> or full URL).<br>
+    2) Without allow list: click “Deny all” — status should show “blocked”.<br>
+    3) In C&amp;D add <code>unpkg.com/preact</code> (or full URL) to <code>allowListAutoblockerURLs</code>.<br>
+    4) Reload the page and click “Deny all” again — status should show “Preact loaded”.
+  </p>
+</body>
 </html>
