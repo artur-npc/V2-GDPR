@@ -13,40 +13,80 @@
     .status.blocked { background: #ffebee; border-color: #f44336; }
     code { background: #eee; padding: 0.1em 0.3em; border-radius: 3px; }
   </style>
-
-    
-    <script id="usercentrics-cmp" src="https://web.cmp.usercentrics.eu/ui/loader.js" data-settings-id="HTrWecvQcUoC94" data-sandbox="1" async></script>
-
-  <!-- ========== 2. Paste your Autoblocker script here (if loaded separately) ========== -->
-  <!-- Or it may be loaded by the CMP — then this block is not needed. -->
+  <!-- Autoblocker config (nodes) – used as initial config if API is mocked or unavailable -->
+  <script data-uc-allowed="true">
+    window.ucCmpConfig = window.ucCmpConfig || {};
+    window.ucCmpConfig.autoBlockerConfig = {
+      allowedCustomSources: [],
+      allowListURLs: [],
+      nodes: [
+        { "serviceIds": ["HyEX5Nidi-m"], "src": "https://player.vimeo.com/video/744979938?h=e4e0289444&app_id=122963" },
+        { "serviceIds": ["IdaQw5cVN"], "src": "https://airtable.com/embed/shr1JTAfJbR8eS3cc?backgroundColor=blue" },
+        { "serviceIds": ["BJz7qNsdj-7"], "src": "https://www.youtube.com/embed/lUB_bo0SsRw?si=19m572U8UXKS5JF7" },
+        { "serviceIds": ["CguMb4Rq"], "src": "https://open.spotify.com/embed/show/5OTm5evU4sWv5BmZLz6Yt5?utm_source=generator", "id": "spotify-embed" },
+        { "serviceIds": ["Skj79NodobQ", "S1hmcVouiZm"], "src": "https://platform.twitter.com/widgets.js" },
+        { "serviceIds": ["87JYasXPF", "S1pcEj_jZX"], "src": "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d42550.78176913606!2d11.6391936!3d48.198451199999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sde!4v1627274483897!5m2!1sen!2sde" },
+        { "serviceIds": ["ry0QcNodoWQ"], "src": "//js.hsforms.net/forms/v2.js" },
+        { "serviceIds": ["Hko_qNsui-Q"], "src": "https://developers.google.com/static/recaptcha/images/newCaptchaAnchor.gif" },
+        { "serviceIds": ["ozaNb0ZelLKHOs"], "src": "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI" },
+        { "serviceIds": ["ozaNb0ZelLKHOs"], "src": "https://woolyss.com/f/avc-aac-nerdist-friends.mp4" },
+        { "serviceIds": ["ozaNb0ZelLKHOs"], "src": "https://woolyss.com/f/audio-sample.mp3" },
+        { "serviceIds": ["z0d4Ysmo8A6x9W"], "src": "https://fastly.picsum.photos/id/1079/200/300.jpg?hmac=2_Q-8QGaabS7GsZLCCM2JvTkNhZFjwv5K2wVnJ8CjKI" }
+      ]
+    };
+  </script>
+<script id="usercentrics-cmp" src="https://web.cmp.usercentrics.eu/ui/loader.js" data-settings-id="V4juve1UMfgucZ" async></script>
 </head>
 <body>
   <h1>Autoblocker allowList (whitelist) test</h1>
   <p>The script below should be blocked without consent. If its URL is added to <code>allowListAutoblockerURLs</code> in C&amp;D, it should run even when the user clicks “Deny all”.</p>
 
-  <div class="status" id="whitelist-test-status">Waiting for script to load…</div>
+  <p class="placeholder">Content below uses all <code>src</code> from autoblocker config nodes. With “Deny all” they should be blocked; with “Accept” or when URL is in allow list they load.</p>
 
-  <!-- Test script: when this URL is in allowListAutoblockerURLs it is not blocked on Deny all -->
-  <script src="https://unpkg.com/preact@10.19.2/dist/preact.min.js"></script>
-  <script>
-    (function () {
-      var el = document.getElementById('whitelist-test-status');
-      if (typeof preact !== 'undefined') {
-        el.textContent = 'Preact loaded — script ran (consent given or URL in allow list).';
-        el.className = 'status ok';
-      } else {
-        el.textContent = 'Preact not loaded — script blocked by autoblocker.';
-        el.className = 'status blocked';
-      }
-    })();
-  </script>
+  <!-- Scripts (from nodes) -->
+  <h2>Twitter (script)</h2>
+  <script src="https://platform.twitter.com/widgets.js"></script>
+
+  <h2>HubSpot (script)</h2>
+  <script src="//js.hsforms.net/forms/v2.js"></script>
+
+  <!-- iframes (from nodes) -->
+  <h2>Vimeo</h2>
+  <iframe src="https://player.vimeo.com/video/744979938?h=e4e0289444&app_id=122963" width="426" height="240" allowfullscreen title="Vimeo"></iframe>
+
+  <h2>Airtable</h2>
+  <iframe src="https://airtable.com/embed/shr1JTAfJbR8eS3cc?backgroundColor=blue" width="100%" height="333" style="border:1px solid #ccc;"></iframe>
+
+  <h2>YouTube</h2>
+  <iframe src="https://www.youtube.com/embed/lUB_bo0SsRw?si=19m572U8UXKS5JF7" width="560" height="315" allowfullscreen title="YouTube"></iframe>
+
+  <h2>Spotify</h2>
+  <iframe id="spotify-embed" src="https://open.spotify.com/embed/show/5OTm5evU4sWv5BmZLz6Yt5?utm_source=generator" width="300" height="380" frameborder="0"></iframe>
+
+  <h2>Google Maps</h2>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d42550.78176913606!2d11.6391936!3d48.198451199999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sde!4v1627274483897!5m2!1sen!2sde" width="600" height="450" style="border:0;"></iframe>
+
+  <!-- Images (from nodes) -->
+  <h2>reCAPTCHA (img)</h2>
+  <img src="https://developers.google.com/static/recaptcha/images/newCaptchaAnchor.gif" alt="reCAPTCHA" width="560">
+
+  <h2>Picsum 866 (img)</h2>
+  <img src="https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI" alt="Picsum 866" width="200" height="300">
+
+  <h2>Picsum 1079 (img)</h2>
+  <img src="https://fastly.picsum.photos/id/1079/200/300.jpg?hmac=2_Q-8QGaabS7GsZLCCM2JvTkNhZFjwv5K2wVnJ8CjKI" alt="Picsum 1079" width="200" height="300">
+
+  <!-- Video / Audio (from nodes) -->
+  <h2>Woolyss (video)</h2>
+  <video src="https://woolyss.com/f/avc-aac-nerdist-friends.mp4" controls width="400"></video>
+
+  <h2>Woolyss (audio)</h2>
+  <audio src="https://woolyss.com/f/audio-sample.mp3" controls></audio>
 
   <p class="placeholder">
     <strong>How to test:</strong><br>
-    1) Ensure the autoblocker config for this domain has a node for this script (e.g. <code>src: "unpkg.com/preact"</code> or full URL).<br>
-    2) Without allow list: click “Deny all” — status should show “blocked”.<br>
-    3) In C&amp;D add <code>unpkg.com/preact</code> (or full URL) to <code>allowListAutoblockerURLs</code>.<br>
-    4) Reload the page and click “Deny all” again — status should show “Preact loaded”.
+    1) Without allow list: click “Deny all” — the content above should be blocked.<br>
+    2) Add a node’s URL (or part of it) to <code>allowListAutoblockerURLs</code> in C&amp;D — that resource should load even on “Deny all”.
   </p>
 </body>
 </html>
